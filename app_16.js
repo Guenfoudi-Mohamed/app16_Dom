@@ -117,6 +117,7 @@ function mouseClick(){
 // playerTurn initial value 
 playerTurn.textContent = `TURN Player ${turnXO}`;
 
+//add events 
 for(let i = 0;i<items.length;i++){
     arr0.push(mouseOver);
     items[i].addEventListener('mouseover',mouseOver);
