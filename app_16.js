@@ -1,12 +1,16 @@
 // app_16
+
 const items = document.querySelectorAll('body #section .container .item');
 const playerTurn = document.querySelector('body #section .playerTurn');
-const popUp = document.querySelector('body #popUp');
+const popUpRestart = document.querySelector('body #popUpRestart');
 const arrXO = ['X','O'];
-let turnXO = arrXO[Math.floor(Math.random() * 2)];
+let playerIndex = Math.floor(Math.random() * 2);
+let turnXO = arrXO[playerIndex];
 let arr0 = [];
 let arr1 = [];
 let numberOfClicks = 0;
+
+
 
 // function checkResult 
 function checkResult(XO,index){
@@ -18,14 +22,17 @@ function checkResult(XO,index){
     numberOfClicks++;
     // start function displayPopUp 
     function displayPopUp(){
-        popUp.style.setProperty('display','flex');
-        const btnRestart = document.querySelector('body #popUp .btnRestart');
+        popUpRestart.style.setProperty('display','flex');
+        const btnRestart = document.querySelector('body #popUpRestart .btnRestart');
         btnRestart.addEventListener('click',function(){
             for(let i = 0;i<stock.length;i++){
                 items[Number(stock[i])].removeAttribute('style');
             }
-            popUp.style.setProperty('display','none');
-            playerTurn.textContent = `TURN Player ${turnXO}`;
+            popUpRestart.style.setProperty('display','none');
+            if(turnXO=='X'){playerIndex=0; playerTurn.textContent = `TURN  ${arrNamesPlayer[playerIndex]}`;}
+            else if(turnXO=='O'){playerIndex=1;playerTurn.textContent = `TURN  ${arrNamesPlayer[playerIndex]}`;}
+
+            // playerTurn.textContent = `TURN Player ${turnXO}`;
             list = [];
             stock = '';
             for(let i = 0;i<items.length;i++){
@@ -69,8 +76,17 @@ function checkResult(XO,index){
     };
     if(bool == true){
         bool=false;
-        playerTurn.textContent = `Player ${XO} Win !`;
-        popUp.children[0].textContent = `Player ${XO} Win !`;
+        if(XO == 'X'){
+            playerIndex=0;
+            playerTurn.textContent = ` ${arrNamesPlayer[0]} Win !`;
+            popUpRestart.children[0].textContent = ` ${arrNamesPlayer[0]} Win !`;
+        }
+        else if(XO == 'O'){
+            playerIndex=1;
+            playerTurn.textContent = ` ${arrNamesPlayer[1]} Win !`;
+            popUpRestart.children[0].textContent = ` ${arrNamesPlayer[1]} Win !`;
+        }
+        
         for(let i = 0;i<stock.length;i++){
             items[Number(stock[i])].style.cssText = `background-color:#00d500;`;
         }
@@ -78,11 +94,11 @@ function checkResult(XO,index){
     }
     else{
         if(numberOfClicks === 9){
-            popUp.children[0].textContent = `Draw !`;
+            popUpRestart.children[0].textContent = `Draw !`;
             displayPopUp();
         }
-        if(XO == 'X'){XO = 'O';playerTurn.textContent = `TURN Player ${XO}`;}
-        else if(XO == 'O'){XO = 'X';playerTurn.textContent = `TURN Player ${XO}`;}
+        if(XO == 'X'){XO = 'O';playerIndex=1;playerTurn.textContent = `TURN  ${playerIndex == 0?arrNamesPlayer[0]:arrNamesPlayer[1]}`;}
+        else if(XO == 'O'){XO = 'X';playerIndex=0; playerTurn.textContent = `TURN  ${playerIndex == 0?arrNamesPlayer[0]:arrNamesPlayer[1]}`;}
     };
 }
 // function mouseOver
@@ -106,16 +122,17 @@ function mouseClick(){
         this.children[0].textContent = `${turnXO}`;
         if(turnXO == 'X'){
             checkResult(turnXO,Number(this.attributes[1].value));
+            playerIndex=1;
             turnXO = 'O';
         }
         else if(turnXO == 'O'){
             checkResult(turnXO,Number(this.attributes[1].value));
             turnXO = 'X';
+            playerIndex=0;
         }
     }
 }
-// playerTurn initial value 
-playerTurn.textContent = `TURN Player ${turnXO}`;
+
 
 //add events 
 for(let i = 0;i<items.length;i++){
@@ -125,3 +142,30 @@ for(let i = 0;i<items.length;i++){
     items[i].addEventListener('mouseout',mouseOut);
     items[i].addEventListener('click',mouseClick);
 };
+
+
+// event for pop Up Players 
+const popUpPlayers = document.querySelector('body #popUpPlayers');
+const inpPlayer = document.querySelectorAll('body #popUpPlayers .container .player > input');
+const btnAddNamesPlayer = document.querySelector('body #popUpPlayers .container > .btn input');
+const arrNamesPlayer = []
+btnAddNamesPlayer.addEventListener('click',function(){
+    let conteur = -1;
+    for(let i = 0;i<inpPlayer.length;i++){
+        if(inpPlayer[i].value == ''){
+            conteur = i;
+            inpPlayer[conteur].focus();
+            break;
+        }
+    }
+    if(conteur == -1){
+        for(let i = 0;i<inpPlayer.length;i++){
+            arrNamesPlayer[i] = inpPlayer[i].value;
+        }
+        popUpPlayers.style.setProperty('display','none');
+        console.log(arrNamesPlayer);
+        // playerTurn initial value 
+        playerTurn.textContent = `TURN  ${playerIndex == 0?arrNamesPlayer[0]:arrNamesPlayer[1]}`;
+        console.log(playerIndex);
+    }
+});
