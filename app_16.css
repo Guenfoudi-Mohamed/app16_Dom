@@ -17,6 +17,13 @@ body #section .container .item > span{font-weight: bold;font-size: 7em;color: rg
 body #section .container .item > span::selection{background-color: transparent;}
 body #section .container .item > span.active{color: rgb(0, 0, 0, .8);}
 body #section p.playerTurn{text-align: center;color: rgb(0, 0, 0);font-size: 1.5em;}
-body #popUp{width: 100vw;min-height: 100vh;position: absolute;top:0px;left: 0px; background-color: rgba(0, 0, 0, .9);display: none;flex-direction: column; justify-content: center;align-items: center;}
-body #popUp h1{color: #fff;}
-body #popUp .btnRestart{background: #fff;color: #000;padding: 10px;font-size: 1em;margin-top: 1em;border: none;cursor: pointer;font-weight: bold;}
+body #popUpRestart{width: 100vw;min-height: 100vh;position: absolute;top:0px;left: 0px; background-color: rgba(0, 0, 0, .9);display: none;flex-direction: column; justify-content: center;align-items: center;}
+body #popUpRestart h1{color: #fff;}
+body #popUpRestart .btnRestart{background: #fff;color: #000;padding: 10px;font-size: 1em;margin-top: 1em;border: none;cursor: pointer;font-weight: bold;}
+body #popUpPlayers{width: 100vw;min-height: 100vh;position: fixed;z-index: 1; background-color:rgba(0, 0, 0, 0.9);z-index: 510;}
+body #popUpPlayers .container{min-height: inherit; display: flex;justify-content: center;align-items: center;flex-direction:column ;}
+body #popUpPlayers .container > div{width: 247px;}
+body #popUpPlayers .container .player:nth-child(2){margin: 15px 0px;}
+body #popUpPlayers .container .player label{color: #fff; margin-right:15px;}
+body #popUpPlayers .container .player > input{padding:2.5px 5px;}
+body #popUpPlayers .container > .btn input[type="button"]{padding:2.5px 5px;font-size: .8em;cursor: pointer;position: relative;left: calc(76.5px + 15px);}
